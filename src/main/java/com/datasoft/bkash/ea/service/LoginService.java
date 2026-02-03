@@ -380,13 +380,14 @@ public class LoginService {
     }
 
     public UserName getUserNameById(Long id) {
-        String sql = "SELECT first_name, last_name FROM app_user WHERE id = ? LIMIT 1";
+        String sql = "SELECT first_name, last_name, is_dashboard_show FROM app_user WHERE id = ? LIMIT 1";
 
         return jdbcTemplate.query(sql, new Object[]{id}, rs -> {
             if (rs.next()) {
                 UserName dto = new UserName();
                 dto.setFirstName(rs.getString("first_name"));
                 dto.setLastName(rs.getString("last_name"));
+                dto.setDashboardShow(rs.getBoolean("is_dashboard_show"));
                 return dto;
             }
             return null; // user not found
